@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <title>Nyanthu</title>
         <style>
-            /* 元の5ch風スタイルそのまま */
             body {
                 background-color: #f0f0f0;
                 font-family: "MS PGothic", "IPAMonaPGothic", "Mona", sans-serif;
@@ -12,45 +11,38 @@
                 line-height: 1.5;
                 color: #000000;
             }
-
             .container {
                 width: 80%;
                 margin: 0 auto;
                 background-color: #f0f0f0;
             }
-
             h1 {
                 font-size: 24px;
                 color: #800000;
                 padding: 10px;
                 margin-top: 0;
             }
-
             .header-buttons input {
                 background-color: #f0f0f0;
-                border: 1px solid #cccccc;
+                border: 1px solid #ccc;
                 padding: 10px 20px;
                 cursor: pointer;
                 font-weight: bold;
                 margin-right: 5px;
             }
-
             .header-buttons input:hover {
                 background-color: #e0e0e0;
             }
-
             section {
-                display: none; /* 最初は非表示 */
+                display: none;
             }
-
             section.active {
-                display: block; /* 表示 */
+                display: block;
             }
             a {
                 text-decoration: none;
                 color: #0000ee;
             }
-
             a:hover {
                 text-decoration: underline;
                 color: #ee0000;
@@ -63,49 +55,67 @@
                 <h1>Nyanthu</h1>
                 <div class="header-buttons">
                     <input type="button" value="Home" data-target="home" />
+                    <input type="button" value="Sites" data-target="sites" />
                     <input type="button" value="Apps" data-target="apps" />
-                    <input type="button" value="Faq" data-target="faq" />
-                    <input type="button" value="docs" data-target="docs" />
+                    <input type="button" value="Docs" data-target="docs" />
                 </div>
             </div>
 
-            <!-- section -->
             <section id="home">
                 <h2>Home</h2>
-                <p>ここがホームセクションです。</p>
-                <a href="https://policy.nyanthu.com">[利用規約]</a>
+                <p>nyanthuはゲーム・ソフト・サービスの開発団体です。</p>
+                <a
+                    onclick="alert('利用規約\n1. 本ソフトは nyanthu 提供\n2. 利用による損害は自己責任\n3. コピー・再配布禁止\n4. 権利は nyanthu に帰属\n5. 同意できない場合は利用禁止')"
+                >
+                    利用規約
+                </a>
+                <span>に同意する [</span>
+                <input id="agree" type="checkbox" />
+                <span>]</span>
             </section>
+
+            <section id="sites">
+                <h2>Sites</h2>
+                <a
+                    href="https://tools.nyanthu.com"
+                    target="_blank"
+                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                >
+                    [Tools] </a
+                ><br />
+                <a
+                    href="https://thread.nyanthu.com"
+                    target="_blank"
+                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                >
+                    [ThreadBoard]
+                </a>
+            </section>
+
             <section id="apps">
                 <h2>Apps</h2>
-                <a>ツール: </a><a href="https://tools.nyanthu.com">[Tools]</a
-                ><br />
-                <a>掲示板: </a
-                ><a href="https://thread.nyanthu.com">[ThreadBoard]</a>
+                <p>Downloads</p>
+                <a
+                    href="https://google.com"
+                    target="_blank"
+                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                >
+                    DownloadPage
+                </a>
             </section>
-            <section id="faq">
-                <h2>FAQ</h2>
-                <p>よくある質問を表示します。</p>
-            </section>
+
             <section id="docs">
                 <h2>Docs</h2>
-                <p>A: Appsのサーバーが起動していない</p>
-                <p>
-                    Q:
-                    サーバーサイドでエラーが発生しています、復旧作業をしているので数時間待ってから再接続してください
-                </p>
-                <p>A: サイトが異常に重い</p>
-                <p>
-                    A: サーバーサイドの冷却装置の破損,
-                    クライアントのネット環境に問題があります
-                </p>
+                <p>マニュアル・ドキュメントはこちらに追加予定です。</p>
             </section>
+
             <footer
                 style="
                     font-size: 12px;
-                    color: #555555; /* 薄めのグレー */
+                    color: #555;
                     margin-top: 30px;
                     padding: 10px 0;
-                    border-top: 1px solid #cccccc;
+                    border-top: 1px solid #ccc;
                 "
             >
                 <p>© 2025 Nyanthu. All rights reserved.</p>
@@ -116,25 +126,20 @@
             const sections = document.querySelectorAll("section");
             const buttons = document.querySelectorAll("[data-target]");
 
-            // URLクエリを取得
+            // 初期表示（URLクエリ優先）
             const params = new URLSearchParams(window.location.search);
             const sectionFromQuery = params.get("section") || "home";
+            sections.forEach((sec) =>
+                sec.classList.toggle("active", sec.id === sectionFromQuery),
+            );
 
-            // 初期表示
-            sections.forEach((sec) => {
-                sec.classList.toggle("active", sec.id === sectionFromQuery);
-            });
-
-            // ボタン押下でsection切替＆URLクエリ更新
+            // ボタンクリックでsection切替＆URL更新
             buttons.forEach((btn) => {
                 btn.addEventListener("click", () => {
                     const target = btn.getAttribute("data-target");
-
-                    sections.forEach((sec) => {
-                        sec.classList.toggle("active", sec.id === target);
-                    });
-
-                    // URLクエリ書き換え
+                    sections.forEach((sec) =>
+                        sec.classList.toggle("active", sec.id === target),
+                    );
                     const newUrl = new URL(window.location.href);
                     newUrl.searchParams.set("section", target);
                     window.history.replaceState({}, "", newUrl);
