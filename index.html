@@ -126,7 +126,13 @@
 
                 <script>
                     const params = new URLSearchParams(window.location.search);
-                    const section = params.get("section") || "(なし)";
+                    const section = params.get("section") || "home";
+
+                    if (section == "home") {
+                        const newUrl = new URL(window.location.href);
+                        newUrl.searchParams.set("section", "home");
+                        window.history.replaceState({}, "", newUrl);
+                    }
 
                     // spanに値を表示
                     document.getElementById("missing-query").textContent =
