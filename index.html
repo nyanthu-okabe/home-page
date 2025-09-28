@@ -7,6 +7,11 @@
             href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap"
             rel="stylesheet"
         />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
         <style>
             mot {
                 background-color: #f0f0f0;
@@ -115,8 +120,16 @@
             <section id="home">
                 <h2>Home</h2>
 
-                <mot>"Provide interaction and happiness across borders."</mot
-                ><br />
+                <mot>"Provide interaction and happiness across borders."</mot>
+                <style>
+                    #editor_2 {
+                        /*width: 80%;*/
+                        height: 120px;
+                        margin: 20px auto;
+                        border: 1px solid #ccc;
+                    }
+                </style>
+                <div id="editor_2"></div>
                 <p>
                     Nyanthu is a development group for games, software, and
                     services.
@@ -137,10 +150,11 @@
                 <a
                     href="https://tools.nyanthu.com"
                     target="_blank"
-                    onclick="if(!document.getElementById('agree').checked){alert('Please agree before accessing');return false;}"
+                    onclick="if(!document.getElementById('agree').checked){alert('Pleaseagree before accessing');return false;}"
                 >
-                    [Tools] </a
-                ><br />
+                    [Tools]
+                </a>
+                <br />
                 <a
                     href="https://thread.nyanthu.com"
                     target="_blank"
@@ -151,15 +165,17 @@
             </section>
 
             <section id="apps">
+                <style>
+                    #editor {
+                        /*width: 80%;*/
+                        height: 150px;
+                        margin: 20px auto;
+                        border: 1px solid #ccc;
+                    }
+                </style>
                 <h2>Apps</h2>
-                <p>Downloads</p>
-                <a
-                    href="https://google.com"
-                    target="_blank"
-                    onclick="if(!document.getElementById('agree').checked){alert('Please agree before accessing');return false;}"
-                >
-                    Download Page
-                </a>
+                <p>Nyanthu's softs Downloads</p>
+                <div id="editor"></div>
             </section>
             <section id="notfound">
                 <h2>Not Found</h2>
@@ -267,33 +283,92 @@
 
         <script>
             window.addEventListener("DOMContentLoaded", () => {
-                const sections = document.querySelectorAll("section");
-                const buttons = document.querySelectorAll("[data-target]");
-
-                const params = new URLSearchParams(window.location.search);
-                const sectionFromQuery = params.get("section");
-
-                let targetSection = document.getElementById(sectionFromQuery);
-                if (!targetSection) {
-                    targetSection = document.getElementById("404");
-                }
-
-                sections.forEach((sec) => {
-                    if (sec === targetSection) {
-                        sec.classList.add("active");
-                    } else {
-                        sec.classList.remove("active");
-                    }
+                require.config({
+                    paths: {
+                        vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs",
+                    },
                 });
 
-                buttons.forEach((btn) => {
-                    btn.addEventListener("click", () => {
-                        const targetId = btn.getAttribute("data-target");
-                        const targetSec = document.getElementById(targetId);
+                require(["vs/editor/editor.main"], function () {
+                    const sections = document.querySelectorAll("section");
+                    const buttons = document.querySelectorAll("[data-target]");
+                    let editors = {};
+
+                    function initEditor(targetId) {
+                        // If editor for this tab already exists, just re-layout and return
+                        if (editors[targetId]) {
+                            // Use a small timeout to ensure the container is fully visible
+                            setTimeout(() => {
+                                editors[targetId].layout();
+                            }, 1);
+                            return;
+                        }
+
+                        // Create editor only if it's for a specific section
+                        if (targetId === "home") {
+                            editors["home"] = monaco.editor.create(
+                                document.getElementById("editor_2"),
+                                {
+                                    value: `// GET
+fetch("https://api.nyanthu.com")
+  .then(res => res.json())
+  .then(data => console.log(data))`,
+                                    language: "javascript",
+                                    theme: "vs-dark",
+                                    fontSize: 16,
+                                    readOnly: true,
+                                    lineNumbers: "on",
+                                    glyphMargin: false,
+                                    minimap: { enabled: false },
+                                    rulers: [],
+                                    overviewRulerLanes: 0,
+                                    scrollBeyondLastLine: false,
+                                    scrollbar: {
+                                        vertical: "hidden",
+                                        horizontal: "hidden",
+                                    },
+                                    wordWrap: "on",
+                                },
+                            );
+                        } else if (targetId === "apps") {
+                            editors["apps"] = monaco.editor.create(
+                                document.getElementById("editor"),
+                                {
+                                    value: `#nyanthugame
+curl https://setup_pkgm.nyanthu.com | sh
+`,
+                                    language: "shell",
+                                    theme: "vs-dark",
+                                    fontSize: 16,
+                                    readOnly: true,
+                                    lineNumbers: "on",
+                                    glyphMargin: false,
+                                    minimap: { enabled: false },
+                                    rulers: [],
+                                    overviewRulerLanes: 0,
+                                    scrollBeyondLastLine: false,
+                                    scrollbar: {
+                                        vertical: "hidden",
+                                        horizontal: "hidden",
+                                    },
+                                    wordWrap: "on",
+                                },
+                            );
+                        }
+                    }
+
+                    function showSection(targetId) {
+                        let sectionToShow = document.getElementById(targetId);
+                        if (!sectionToShow) {
+                            sectionToShow = document.getElementById("404");
+                            targetId = "404";
+                        }
 
                         sections.forEach((sec) => {
-                            if (sec === targetSec) {
+                            if (sec === sectionToShow) {
                                 sec.classList.add("active");
+                                // Initialize editor now that the section is visible
+                                initEditor(targetId);
                             } else {
                                 sec.classList.remove("active");
                             }
@@ -302,7 +377,20 @@
                         const newUrl = new URL(window.location.href);
                         newUrl.searchParams.set("section", targetId);
                         window.history.replaceState({}, "", newUrl);
+                    }
+
+                    // Set up button listeners
+                    buttons.forEach((btn) => {
+                        btn.addEventListener("click", () => {
+                            const targetId = btn.getAttribute("data-target");
+                            showSection(targetId);
+                        });
                     });
+
+                    // Show initial section based on URL query
+                    const params = new URLSearchParams(window.location.search);
+                    const sectionFromQuery = params.get("section") || "home";
+                    showSection(sectionFromQuery);
                 });
             });
         </script>
