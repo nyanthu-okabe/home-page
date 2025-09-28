@@ -1,9 +1,42 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <title>Nyanthu</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
         <style>
+            mot {
+                background-color: #f0f0f0;
+                font-family: "Ubuntu", sans-serif; /* Pixelify+Sansに変更 */
+                font-size: 25px;
+                line-height: 1.5;
+                color: #000;
+                margin: 0;
+            }
+            noscript {
+                color: teal;
+            }
+            summary {
+                cursor: cell;
+                color: #800000;
+            }
+            .donateBtn {
+                background-color: #e0e0e0;
+                border: 1px solid #ccc;
+                padding: 10px 20px;
+                cursor: copy;
+                font-weight: bold;
+                margin-right: 5px;
+                transition: background-color 0.2s;
+                color: #800000;
+            }
+
+            .donateBtn:hover {
+                background-color: #f0f0f0;
+            }
             body {
                 background-color: #f0f0f0;
                 font-family: "MS PGothic", "IPAMonaPGothic", "Mona", sans-serif;
@@ -52,30 +85,51 @@
     <body>
         <div class="container">
             <div class="header">
-                <h1>Nyanthu</h1>
+                <h1>
+                    Nyanthu<noscript>[javascript is not activate]</noscript>
+                </h1>
                 <div class="header-buttons">
                     <input type="button" value="Home" data-target="home" />
                     <input type="button" value="Sites" data-target="sites" />
                     <input type="button" value="Apps" data-target="apps" />
                     <input type="button" value="Docs" data-target="docs" />
+                    <input
+                        type="button"
+                        value="Donate"
+                        data-target="donate"
+                        style="
+                            background-color: #e0e0e0;
+                            border: 1px solid #ccc;
+                            padding: 10px 20px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            margin-right: 5px;
+                            transition: background-color 0.2s;
+                            cursor: copy;
+                            color: #800000;
+                        "
+                    />
                 </div>
             </div>
 
             <section id="home">
                 <h2>Home</h2>
-                <p>nyanthuはゲーム・ソフト・サービスの開発団体です。</p>
+
+                <mot>"Provide interaction and happiness across borders."</mot
+                ><br />
+                <p>
+                    Nyanthu is a development group for games, software, and
+                    services.
+                </p>
                 <a
-                    onclick="alert('利用規約\n1. 本ソフトは nyanthu 提供\n2. 利用による損害は自己責任\n3. コピー・再配布禁止\n4. 権利は nyanthu に帰属\n5. 同意できない場合は利用禁止')"
+                    onclick="alert('Terms of Use\n1. Provided by Nyanthu\n2. Use at your own risk\n3. Copying and redistribution prohibited\n4. All rights reserved by Nyanthu\n5. Do not use if you disagree')"
                 >
-                    利用規約
-                </a>
-                <span style="color: red">~></span>　<span>に同意する [</span>
+                    Terms of Use </a
+                ><br />
+                <span style="color: red">~></span>
+                <span>I agree [</span>
                 <input id="agree" type="checkbox" />
                 <span>]</span>
-                <p>
-                    discord
-                    <span style="color: red">~></span> <a href="https://discord.gg/yG7sVGdgUX">入会</a>
-                </p>
             </section>
 
             <section id="sites">
@@ -83,14 +137,14 @@
                 <a
                     href="https://tools.nyanthu.com"
                     target="_blank"
-                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                    onclick="if(!document.getElementById('agree').checked){alert('Please agree before accessing');return false;}"
                 >
                     [Tools] </a
                 ><br />
                 <a
                     href="https://thread.nyanthu.com"
                     target="_blank"
-                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                    onclick="if(!document.getElementById('agree').checked){alert('Please agree before accessing');return false;}"
                 >
                     [ThreadBoard]
                 </a>
@@ -102,24 +156,52 @@
                 <a
                     href="https://google.com"
                     target="_blank"
-                    onclick="if(!document.getElementById('agree').checked){alert('同意してからアクセスしてください');return false;}"
+                    onclick="if(!document.getElementById('agree').checked){alert('Please agree before accessing');return false;}"
                 >
-                    DownloadPage
+                    Download Page
                 </a>
             </section>
             <section id="notfound">
-                <h2>not found</h2>
-                <p>page not found</p>
+                <h2>Not Found</h2>
+                <p>Page not found</p>
             </section>
 
             <section id="docs">
                 <h2>Docs</h2>
-                <p>マニュアル・ドキュメントはDiscordに記載しています</p>
+                <details>
+                    <summary>Donate</summary>
+                    <p>please donate!</p>
+                    <p>use to nice update</p>
+                </details>
+                <details>
+                    <summary>ceo / admin</summary>
+                    <h3>nyanchu okabe</h3>
+                    <p>3D developer</p>
+                    <p>
+                        The goal is to provide interaction and happiness across
+                        borders.
+                    </p>
+                </details>
+                <details>
+                    <summary>Software Details</summary>
+                    <p>All software ownership belongs to nyanthu.</p>
+                </details>
+                <details>
+                    <summary>Community</summary>
+                    <p>Communitys</p>
+
+                    <p>
+                        Discord<br />
+                        <span style="color: red">~></span>
+                        <a href="https://discord.gg/yG7sVGdgUX">Join</a>
+                    </p>
+                </details>
+                <p>Please contact n@gmail.com for details not listed</p>
             </section>
             <section id="404">
-                <h2>PageNotFound</h2>
+                <h2>Page Not Found</h2>
                 <p>
-                    指定されたQueryが見つかりませんでした: {
+                    The requested query was not found: {
                     <span id="missing-query"></span>
                     }
                 </p>
@@ -134,12 +216,42 @@
                         window.history.replaceState({}, "", newUrl);
                     }
 
-                    // spanに値を表示
                     document.getElementById("missing-query").textContent =
                         section;
                 </script>
             </section>
 
+            <section id="donate">
+                <h2>Donate</h2>
+                <p>Please support the server operating costs</p>
+                <input
+                    class="donateBtn"
+                    type="button"
+                    value="Donate"
+                    id="donateBtn"
+                    data-target="thank"
+                />
+                <script>
+                    document
+                        .getElementById("donateBtn")
+                        .addEventListener("click", () => {
+                            // Replace with your donation URL
+                            window.open(
+                                "https://www.amazon.co.jp/hz/wishlist/ls/XXXXXXXX",
+                                "_blank",
+                            );
+                        });
+                </script>
+            </section>
+
+            <section id="thank">
+                <h2>Thank You for Your Donation</h2>
+                <p>We appreciate your support!</p>
+                <h3>How Donations Are Used</h3>
+                <p>
+                    Server maintenance, equipment purchase, and personnel costs
+                </p>
+            </section>
             <footer
                 style="
                     font-size: 12px;
@@ -154,22 +266,18 @@
         </div>
 
         <script>
-            // ページ読み込み後に実行
             window.addEventListener("DOMContentLoaded", () => {
                 const sections = document.querySelectorAll("section");
                 const buttons = document.querySelectorAll("[data-target]");
 
-                // URLクエリから section を取得
                 const params = new URLSearchParams(window.location.search);
                 const sectionFromQuery = params.get("section");
 
-                // セクションが存在するかチェック
                 let targetSection = document.getElementById(sectionFromQuery);
                 if (!targetSection) {
-                    targetSection = document.getElementById("404"); // 存在しなければ404
+                    targetSection = document.getElementById("404");
                 }
 
-                // 表示切替
                 sections.forEach((sec) => {
                     if (sec === targetSection) {
                         sec.classList.add("active");
@@ -178,7 +286,6 @@
                     }
                 });
 
-                // ボタン押下で切替＆URL更新
                 buttons.forEach((btn) => {
                     btn.addEventListener("click", () => {
                         const targetId = btn.getAttribute("data-target");
@@ -192,7 +299,6 @@
                             }
                         });
 
-                        // URLを書き換え
                         const newUrl = new URL(window.location.href);
                         newUrl.searchParams.set("section", targetId);
                         window.history.replaceState({}, "", newUrl);
