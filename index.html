@@ -287,49 +287,50 @@ curl https://anything.nyanthu.com/pkgm.sh | sh
 
     <script>
       window.addEventListener("DOMContentLoaded", () => {
-        const sections = document.querySelectorAll("section");
-        const buttons = document.querySelectorAll("[data-target]");
+  const sections = document.querySelectorAll("section");
+  const buttons = document.querySelectorAll("[data-target]");
 
-        function showSection(targetId) {
-          let sectionToShow = document.getElementById(targetId);
-          if (!sectionToShow) {
-            sectionToShow = document.getElementById("404");
-            targetId = "404";
-          }
-          sections.forEach((sec) =>
-            sec.classList.toggle("active", sec === sectionToShow),
-          );
-          const newUrl = new URL(window.location.href);
-          newUrl.searchParams.set("section", targetId);
-          window.history.replaceState({}, "", newUrl);
-        }
+  function showSection(targetId) {
+    let sectionToShow = document.getElementById(targetId);
+    if (!sectionToShow) {
+      sectionToShow = document.getElementById("404");
+      targetId = "404";
+    }
+    sections.forEach((sec) =>
+      sec.classList.toggle("active", sec === sectionToShow)
+    );
+  }
 
-        buttons.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const targetId = btn.getAttribute("data-target");
-            showSection(targetId);
-          });
-        });
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-target");
+      showSection(targetId);
+      // URLも更新
+      const newPath = "/" + targetId + "/";
+      window.history.replaceState({}, "", newPath);
+    });
+  });
 
-        const params = new URLSearchParams(window.location.search);
-        showSection(params.get("section") || "home");
+  // パスからセクションを決定
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const targetFromPath = pathParts[0] || "home"; // ルートなら home
+  showSection(targetFromPath);
 
-        // Donate button
-        const donateBtn = document.getElementById("donateBtn");
-        if (donateBtn) {
-          donateBtn.addEventListener("click", () => {
-            window.open(
-              "https://www.amazon.com/hz/wishlist/ls/XXXXXXXX",
-              "_blank",
-              "noopener",
-            );
-            showSection("thank");
-          });
-        }
+  // Donateボタン
+  const donateBtn = document.getElementById("donateBtn");
+  if (donateBtn) {
+    donateBtn.addEventListener("click", () => {
+      window.open(
+        "https://www.amazon.com/hz/wishlist/ls/XXXXXXXX",
+        "_blank",
+        "noopener"
+      );
+      showSection("thank");
+      window.history.replaceState({}, "", "/thank/");
+    });
+  }
+});
 
-        document.getElementById("missing-query").textContent =
-          params.get("section") || "";
-      });
     </script>
   </body>
 </html>
