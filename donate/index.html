@@ -157,7 +157,7 @@
           role="navigation"
           aria-label="main navigation"
         >
-          <input type="button" value="Home" data-target="home" />
+          <input type="button" value="Home" data-target="" />
           <input type="button" value="Sites" data-target="sites" />
           <input type="button" value="Apps" data-target="apps" />
           <input type="button" value="Docs" data-target="docs" />
@@ -185,7 +185,7 @@
     </div>
 
     <script>
-      window.addEventListener("DOMContentLoaded", () => {
+     window.addEventListener("DOMContentLoaded", () => {
   const sections = document.querySelectorAll("section");
   const buttons = document.querySelectorAll("[data-target]");
 
@@ -203,14 +203,11 @@
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
-      showSection(targetId);
-      // URLも更新
-      const newPath = "/" + targetId + "/";
-      window.history.replaceState({}, "", newPath);
+      window.location.pathname = "/" + targetId + "/"; // ここでリロード
     });
   });
 
-  // パスからセクションを決定
+  // 現在のパスからセクション表示
   const pathParts = window.location.pathname.split("/").filter(Boolean);
   const targetFromPath = pathParts[0] || "home"; // ルートなら home
   showSection(targetFromPath);
@@ -224,11 +221,11 @@
         "_blank",
         "noopener"
       );
-      showSection("thank");
-      window.history.replaceState({}, "", "/thank/");
+      window.location.pathname = "/thank/"; // これもリロード
     });
   }
 });
+
 
     </script>
   </body>
