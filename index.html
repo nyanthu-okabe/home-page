@@ -231,5 +231,44 @@ start https://anything.nyanthu.com/
 
 
     </script>
+    <!-- START BOT-->
+    <button
+      id="open"
+      onclick="openBot()"
+      style="position:fixed;bottom:0px;right:0px;width:30%;padding:10px;border:none;border-radius:0;background-color:#f0f0f0;border:1px solid #ccc;font-size:14px;cursor:pointer;z-index:3;"
+    >
+      OpenBot
+    </button>
+
+    <button
+      id="close"
+      onclick="closeBot()"
+      style="position:absolute;bottom:60%;right:0;width:30%;padding:10px;border:none;border-radius:0;background-color:#f0f0f0;border:1px solid #ccc;font-size:14px;cursor:pointer;z-index:3;"
+    >
+      CloseBot
+    </button>
+
+    <iframe
+      id="bot"
+      src="https://nyanthubot.nyanthu.com"
+      style="position:absolute;bottom:0;right:0;width:30%;height:60%;border:none;z-index:2;background-color:#fff;"
+      title="Nyanthu Bot"
+    ></iframe>
+
+  <script>
+    function closeBot() {
+      document.getElementById('close').style.display = 'none';
+      document.getElementById('open').style.display = 'block';
+      document.getElementById('bot').style.display = 'none';
+    }
+
+    function openBot() {
+      document.getElementById('open').style.display = 'none';
+      document.getElementById('close').style.display = 'block';
+      document.getElementById('bot').style.display = 'block';
+    }
+
+    window.onload = closeBot;
+  </script>
   </body>
 </html>
