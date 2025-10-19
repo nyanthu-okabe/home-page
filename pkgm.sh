@@ -14,7 +14,7 @@ esac
 
 # JARファイル名
 JAR_NAME="pkgm_v1.jar"
-JAR_URL="https://yourproject.pages.dev/app.jar"
+JAR_URL="https://www.nyanthu.com/app.jar"
 
 # 出力抑制付きダウンロード関数
 download() {
