@@ -7,6 +7,24 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* 画像のドラッグ禁止 */
+.logo {
+  -webkit-user-drag: none;  /* Chrome, Safari */
+  -moz-user-drag: none;     /* Firefox */
+  -o-user-drag: none;       /* Opera */
+  user-drag: none;          /* 標準っぽいやつ */
+}
+
+/* テキスト選択も禁止にする場合 */
+.logo {
+  -webkit-user-select: none; /* Chrome, Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE */
+  user-select: none;         /* 標準 */
+}
+
+
 .container {
   width: 80%;
   max-width: 1100px;
